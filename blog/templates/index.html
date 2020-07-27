@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for page in pages %}
+{% if page.title != 'About' %}
+<article class="article">
+
+    {% from 'macros.html' import article_header %}
+    {% from 'macros.html' import article_links %}
+
+    {{ article_header(page) }}
+
+    <div class="article-entry">
+        {{ page.html | get_summary | safe }}
+    </div>
+
+
+    {% call article_links(page) %}
+    <li class="article-more btn btn-default">
+        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"> </span>
+        <a class="article-more-link" href="{{ page.path }}">更多</a>
+    </li>
+    {% endcall %}
+
+    <hr/>
+</article>
+{% endif %}
+{% endfor %}
+{{ pagination.links }}
+
+{% endblock %}

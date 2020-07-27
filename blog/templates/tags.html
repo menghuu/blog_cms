@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="tag-page-title"><a href="#">{{ tag }}</a></h1>
+
+{% for page in pages %}
+{% if page.title != 'About' %}
+<article class="tag-article row">
+
+    {% from 'macros.html' import article_links %}
+
+    <span class="tag-article-datetime col-sm-3"> {{ page.meta.get('update', None) or page.meta.get('published', '') }} </span>
+    <div class="col-sm-8">
+        <span class="tag-article-title">
+            <a href="{{ url_for('blog.post', path=page.path) }}">{{ page.meta['title'] }}</a>
+        </span>
+        {% call article_links(page) %}
+        {% endcall %}
+    </div>
+</article>
+<hr size=3/>
+{% endif %}
+{% endfor %}
+{% endblock content %}

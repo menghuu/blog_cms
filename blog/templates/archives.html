@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 class="archive-page-title"><a href="#">Archives</a></h1>
+
+{% for page in pages %}
+{% if page.title != 'About' %}
+<article class="archive-article row">
+
+    {% from 'macros.html' import article_links %}
+
+    <span class="archive-article-datetime col-sm-3"> {{ page.meta.get('update', None) or page.meta.get('published', '') }} </span>
+    <div class="col-sm-9">
+        <span class="archive-article-title">
+            <a href="{{ page.path }}">{{ page.meta['title'] }}</a>
+        </span>
+        {% call article_links(page) %}
+        {% endcall %}
+    </div>
+</article>
+<hr size=3/>
+{% endif %}
+{% endfor %}
+{% endblock content %}

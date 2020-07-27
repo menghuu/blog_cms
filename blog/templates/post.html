@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<article class="article">
+    {% from 'macros.html' import article_header %}
+    {% from 'macros.html' import article_links %}
+
+    {{ article_header(page) }}
+
+    <div class="article-entry">
+        {{ page.html | safe }}
+    </div>
+
+    {% call article_links(page) %}
+    {% endcall %}
+
+    <hr/>
+</article>
+{% endblock content %}

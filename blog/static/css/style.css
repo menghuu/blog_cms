@@ -1,0 +1,89 @@
+body {
+    background: #cfcfcf;
+}
+
+body #blog-main {
+    background: #f8f8f8;
+}
+
+body #blog-header {
+    background-color: #434a54;
+    padding: 0 0 0 0;
+}
+
+body #blog-header #blog-title a {
+    color: #f8f8f8;
+}
+
+body #blog-header #blog-description {
+    color: #a0a0a0
+}
+
+body #blog-header .navbar {
+    margin: 0 0 0 0;
+}
+
+.article-meta {
+    margin-bottom: 20px;
+    color: #999;
+}
+
+.article-meta .article-meta-item {
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.article-entry {
+    margin: 20px 0 10px 0;
+}
+
+/*.article-more-link {*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+ul.article-links {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul.article-links li {
+    list-style-type: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.archive-article-datetime {
+    font-size: 24px;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #868687;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.archive-article-title a {
+    font-size: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.tag-article-datetime {
+    font-size: 24px;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #868687;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.tag-article-title a {
+    font-size: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.tag-page-title {
+    vertical-align: middle;
+    display: inline-block;
+}

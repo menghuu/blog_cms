@@ -1,0 +1,25 @@
+.vscode
+.git
+runs
+datas
+scripts/*
+!scripts/deploy_*
+Dockerfile
+Dockerfile.finnal*
+Dockerfile.deps
+Shisuo.Internal.Dockerfile.finnal
+.dockerignore
+__pycache__
+docker-compose.yml
+.DS_Store
+.gitignore
+README.md
+.venv
+venv
+# 下面这这两个都是为了部署的时候挂载文件的挂载点
+docker
+logs/*
+logs/qbjs/*
+!logs/qbjs
+resources
+instance

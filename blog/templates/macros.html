@@ -1,0 +1,40 @@
+{% macro article_header(page) %}
+
+<header class="article-header">
+    <h1>
+        <a href="{{ page.path }}">
+            {{ page.title }}
+        </a>
+    </h1>
+    <div class="article-meta">
+        {% if page.meta.get('published', None) %}
+        <span class="article-meta-item">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                <span class="article-published-date">{{ page.meta['published'] }}</span>
+            </span>
+        {% endif %}
+
+        {% if page.meta.get('update', None) %}
+        <span class="article-meta-item">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                <span class="article-update-date">{{ page.meta['update'] }}</span>
+            </span>
+        {% endif %}
+    </div>
+
+</header>
+
+{%- endmacro %}
+
+{% macro article_links(page) -%}
+<ul class="article-links">
+    {{ caller() }}
+
+    {% for tag in page.tags %}
+    <li class="article-tag-list-item">
+        <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+        <a class="article-tag-list-link " href="{{ url_for('blog.tags', tag=tag) }}">{{ tag }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{%- endmacro %}

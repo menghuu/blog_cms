@@ -1,0 +1,9 @@
+pip-tools
+flask
+Flask-SQLAlchemy
+Flask-FlatPages
+Flask-Paginate
+pygments
+lxml
+supervisor
+gunicorn

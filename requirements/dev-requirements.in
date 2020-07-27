@@ -1,0 +1,13 @@
+-c ../requirements.txt
+
+pytest
+
+pre-commit
+
+flake8
+flake8-bugbear
+black
+rope
+pre-commit-hooks
+
+ipdb
