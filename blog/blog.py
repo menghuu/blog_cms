@@ -12,6 +12,9 @@ from flask_flatpages import FlatPages, pygments_style_defs
 from flask_paginate import Pagination, get_page_parameter
 from lxml import etree
 import re
+import os
+import time
+import datetime
 
 pages = FlatPages()
 
@@ -20,7 +23,7 @@ bp = Blueprint('blog', 'blog')
 
 @bp.app_template_filter('get_summary')
 def get_summary(html_str):
-    pattern = re.compile(r'<!-- more -->')
+    pattern = re.compile(r'<\s*!\s*-\s*-\s*more\s*-\s*-\s*>')
     matcher = pattern.search(html_str)
 
     get_summary_from_p = True
@@ -42,7 +45,6 @@ def get_summary(html_str):
         ps = html.xpath('//p')
         if ps:
             p = ps[0]
-            p.text = p.text[:limit] + '...'
             summary_html_str = etree.tostring(p).decode()
         else:
             summary_html_str = etree.tostring(html)[:limit].decode()
@@ -63,7 +65,11 @@ def index():
     page = request.args.get(get_page_parameter(), type=int, default=1)
     sorted_pages = list(sorted(
         filter(lambda page: page.meta['title'] != 'About', pages),
-        key=lambda page: page.meta.get('update', None) or page.meta.get('published', None),
+        key=lambda page: page.meta.get('update', None) or page.meta.get(
+            'published',
+            datetime.date.fromtimestamp(
+                os.path.getctime(os.path.join(pages.root, page.path + pages.config('extension'))))
+        ),
         reverse=True
     ))
 
@@ -73,7 +79,6 @@ def index():
         page=page, total=len(sorted_pages), per_page=per_page, search=search,
         record_name='articles', bs_version='3.3'
     )
-    print(f'total pages are: {pagination.total_pages}, show single page is: {pagination.show_single_page}, css_framework is {pagination.css_framework}')
 
     return render_template('index.html', pages=cut_pages, pagination=pagination)
 
@@ -92,8 +97,14 @@ def post(path):
 @bp.route('/archives')
 def archives():
     sorted_pages = list(sorted(
-        filter(lambda page: page.meta['title'] != 'About', pages),
-        key=lambda page: page.meta.get('update', None) or page.meta.get('published', None),
+        filter(
+            lambda page: page.meta['title'] != 'About', pages),
+        key=lambda page: page.meta.get('update', None) or page.meta.get(
+            'published',
+            datetime.date.fromtimestamp(
+                os.path.getctime(os.path.join(pages.root, page.path + pages.config('extension')))
+            )
+        ),
         reverse=True
     ))
     return render_template('archives.html', pages=sorted_pages)
@@ -103,7 +114,12 @@ def archives():
 def tags(tag):
     sorted_pages = list(sorted(
         filter(lambda page: page.meta['title'] != 'About' and tag in page.meta.get('tags', []), pages),
-        key=lambda page: page.meta.get('update', None) or page.meta.get('published', None),
+        key=lambda page: page.meta.get('update', None) or page.meta.get(
+            'published',
+            datetime.date.fromtimestamp(
+                os.path.getctime(os.path.join(pages.root, page.path + pages.config('extension')))
+            )
+        ),
         reverse=True
     ))
     return render_template('tags.html', pages=sorted_pages, tag=tag)
@@ -112,6 +128,5 @@ def tags(tag):
 @bp.route('/about')
 def about():
     page = pages.get_or_404('about')
-    print(f'page is: {page}, meta is: {page.meta}')
     template = page.meta.get('layout', 'post') + '.html'
     return render_template(template, page=page)

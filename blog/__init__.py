@@ -7,7 +7,7 @@
 # Distributed under terms of the MIT license.
 
 import os
-from flask import Flask
+from flask import Flask, redirect, url_for, request
 from flask_flatpages import pygments_style_defs
 
 
@@ -49,10 +49,23 @@ def create_app(test_config=None):
     # app.register_blueprint(auth.bp, url_prefix='/')
     app.register_blueprint(blog.bp, url_prefix='/blog')
 
+    from . import resources
+    app.register_blueprint(resources.bp, url_prefix='/resources')
+
     # make url_for('index') == url_for('blog.index')
     # in another app, you might define a separate main index here with
     # app.route, while giving the blog blueprint a url_prefix, but for
     # the tutorial the blog will be the main index
-    app.add_url_rule("/", endpoint="index")
+    # app.add_url_rule("/", endpoint="index")
+
+    @app.route('/', methods=['GET'])
+    def index():
+        return redirect(url_for('blog.index'), 302)
+
+    @app.route('/update_instance', methods=['GET'])
+    def update():
+        token = request.args.get('token')
+        if token == app.config['UPDATE_INSTANCE_TOKEN']:
+            ...
 
     return app

@@ -6,5 +6,14 @@
 # Distributed under terms of the MIT license.
 #
 
-FLASK_ENV=${FLASK_ENV:-development}
-gunicorn -w 4 "services:wsgi:create_app(config='${FLASK_ENV}')"
+# simple server run
+FLASK_APP=blog flask run
+
+# gunicorn server run
+#gunicorn -w 4 "blog:create_app()" -b 0.0.0.0:5000
+
+# using supervisord to watch the gunicorn
+#supervisord -c instance/supervisord.conf
+
+# restart blog
+supervisorctl -c instance/supervisord.conf restart blog
